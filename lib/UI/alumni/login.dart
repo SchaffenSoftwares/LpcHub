@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lpchub/UI/alumni/home.dart';
+import 'package:lpchub/authentication/authentication.dart';
 import 'package:lpchub/utils/theme.dart' as Theme;
 import 'package:lpchub/utils/bubble_indication_painter.dart';
 
+final comingSoonSnackBar= SnackBar(content: Center(child: Text('COMING SOON')));
 class ALoginPage extends StatefulWidget {
   ALoginPage({Key key}) : super(key: key);
 
@@ -209,6 +211,8 @@ class _ALoginPageState extends State<ALoginPage>
   }
 
   Widget _buildSignIn(BuildContext context) {
+    Authentication authentication;
+
     return Container(
       padding: EdgeInsets.only(top: 23.0),
       child: Column(
@@ -336,8 +340,38 @@ class _ALoginPageState extends State<ALoginPage>
                             fontFamily: "Lato"),
                       ),
                     ),
-                    onPressed: () =>
-                        showInSnackBar("Login button pressed")),
+                    onPressed: (){
+                      if(loginEmailController.text.isEmpty && loginPasswordController.text.isEmpty){
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            // return object of type Dialog
+                            return AlertDialog(
+                              title: new Text("Fill all the fields"),
+                              content: new Text("PLease make sure all fields are filled."),
+                              actions: <Widget>[
+                                // usually buttons at the bottom of the dialog
+                                new FlatButton(
+                                  child: new Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }else{
+                        authentication = Authentication();
+                        authentication.signIn(loginEmailController.text,
+                            loginPasswordController.text,
+                            'alumini',
+                          context
+                        );
+                        print('alumini login');
+                      }
+                    }
+                ),
               ),
             ],
           ),
@@ -407,7 +441,7 @@ class _ALoginPageState extends State<ALoginPage>
               Padding(
                 padding: EdgeInsets.only(top: 10.0, right: 40.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Facebook button pressed"),
+                  onTap: () => showInSnackBar("Coming Soon"),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: new BoxDecoration(
@@ -424,7 +458,7 @@ class _ALoginPageState extends State<ALoginPage>
               Padding(
                 padding: EdgeInsets.only(top: 10.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Google button pressed"),
+                  onTap: () => showInSnackBar("Coming soon"),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: new BoxDecoration(
@@ -446,6 +480,7 @@ class _ALoginPageState extends State<ALoginPage>
   }
 
   Widget _buildSignUp(BuildContext context) {
+    Authentication authentication;
     return Container(
       padding: EdgeInsets.only(top: 23.0),
       child: Column(
@@ -639,7 +674,32 @@ class _ALoginPageState extends State<ALoginPage>
                     ),
                     onPressed: ()
                     {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AHome() ),);
+                      if(signupEmailController.text.isNotEmpty && signupPasswordController.text.isNotEmpty
+                        && signupConfirmPasswordController.text.isNotEmpty && signupNameController.text.isNotEmpty
+                    )
+                    {
+                      authentication = Authentication();
+                      authentication.signUp(signupEmailController.text,
+                          signupPasswordController.text,
+                          signupNameController.text,
+                          'alumini',
+                          context
+                      );
+                    }else{
+                      return AlertDialog(
+                        title: new Text("Fill all the fields"),
+                        content: new Text("PLease make sure all fields are filled."),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    }
                     }
               ),
               )

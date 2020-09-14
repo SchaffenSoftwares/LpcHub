@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lpchub/UI/student/login.dart';
 import 'package:lpchub/UI/alumni/login.dart';
+import 'package:lpchub/authentication/authentication.dart';
 import 'package:lpchub/utils/colors.dart';
 import 'package:lpchub/utils/utils.dart';
 import 'package:flutter/services.dart';
 
 class LandingPage extends StatelessWidget {
+  Authentication authentication;
+  String student='student';
+  String alumini = 'alumini';
   @override
   Widget build(BuildContext context) {
     // Change Status Bar Color
@@ -47,7 +51,10 @@ class LandingPage extends StatelessWidget {
     );
 
     final loginBtn = InkWell(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage() ),),
+      onTap: () {
+        authentication = Authentication();
+        authentication.checkLoggedIn(context,student);
+      },
       child: Container(
         height: 60.0,
         width: MediaQuery.of(context).size.width,
@@ -79,7 +86,9 @@ class LandingPage extends StatelessWidget {
       ),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ALoginPage() ),),
+        onPressed: () {
+          authentication=Authentication();
+          authentication.checkLoggedIn(context, alumini);},
         color: Color(0xFFFB8C00),
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(7.0),
