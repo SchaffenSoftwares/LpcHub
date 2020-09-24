@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'griddashboard.dart';
+import 'package:lpchub/authentication/user_details_for_reference.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,7 +46,7 @@ class _AHomeState extends State<AHome> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Username",
+                    Text(Details.name,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
