@@ -26,8 +26,9 @@
 ```
 $ git clone https://github.com/SchaffenSoftwares/<Project>
 $ cd <Project>
-$ pip3 install -r requirements.txt
-$ python3 manage.py runserver
+$ flutter packages get
+$ flutter run
+$ flutter build apk --release
 ```
 
 ## Contributors
